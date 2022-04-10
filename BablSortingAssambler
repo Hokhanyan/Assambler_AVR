@@ -1,0 +1,37 @@
+code segment
+assume ds:code,cs:code
+start:
+ mov ax,code
+ mov ds,ax    ;code start
+ARR:   dw 1,2,4,3,6,5,9
+ mov ch,0h
+ mov cl,1h
+ mov bh 7h
+ jmp assign_nums
+restart:
+ mov ch,0h
+ mov cl,1h
+ dec bh
+ jmp assign_nums
+swap:
+ mov ch,dl
+ mov cl,dh
+ jmp next
+next:
+ cmp bh,cl
+ je restart
+ add ch,1h
+ add cl,1h
+ jmp assign_nums
+assign_nums:
+ cmp bh,0h
+ je done
+ mov dh,[ARR+ch]
+ mov dl,[ARR+cl]
+ cmp dh,dl
+ jl swap
+ jnl next
+done:
+ nop
+code ends
+end start
